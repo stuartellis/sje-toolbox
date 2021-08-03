@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "docker:build": "docker build . -t sje-toolbox",
-    "docker:run": "docker run --rm -it sje-toolbox /bin/bash",
+    "start": "docker run --rm -it sje-toolbox /bin/bash",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

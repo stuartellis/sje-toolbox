@@ -13,11 +13,21 @@ RUN apt-get update && \
     apt-get autoremove && \
     apt-get clean
 
-# dnsutils provides dig
-RUN apt-get install -y curl dnsutils git inetutils-ping rsync unzip zip
+# Packages that are required by installers
+RUN apt-get install -y curl unzip
+
+WORKDIR /root
 
 # Install Node.js
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs
 
 # Install AWS CLI
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && unzip awscliv2.zip && ./aws/install
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \ 
+  && unzip awscliv2.zip \ 
+  && ./aws/install
+
+# Extra packages: dnsutils provides dig
+RUN apt-get install -y dnsutils git inetutils-ping rsync vim zip
+
+# Include scripts
+COPY bin /root/bin
