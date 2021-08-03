@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# Gets pipeline definitions from Azure DevOps
+#
+# Requires Azure DevOps PAT in the environment variable:
+#     AZURE_DEVOPS_EXT_PAT
+
+set -euo pipefail
+
+## Variables
+
+ado_base_url="https://dev.azure.com/sjellis/sje-ado-labs"
+downloads_dir="tmp"
+
+## Functions
+
+function ensure_dirs () {
+  [ -d "$downloads_dir" ] || mkdir "$downloads_dir"
+  [ -d "$archive_dir" ] || mkdir "$archive_dir"
+}
+
+function set_timestamp () {
+  if [ ! "${JOB_TIMESTAMP:-}" ]; then
+    JOB_TIMESTAMP=$(date -u +"%Y%m%dT%H%M%SZ")
+    export JOB_TIMESTAMP
+  fi
+}
+
+main () {
+  set_timestamp
+  archive_dir=$downloads_dir/$JOB_TIMESTAMP
+  ensure_dirs
+  curl $ado_base_url/_apis/git/repositories -u :$AZURE_DEVOPS_EXT_PAT -o "$archive_dir/repos-$JOB_TIMESTAMP.json"
+}
+
+## Run main function
+
+main
