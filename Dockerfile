@@ -2,7 +2,7 @@ FROM debian:buster-20210721-slim
 
 ## Image metadata ##
 
-LABEL org.opencontainers.image.version="0.1.0"
+LABEL org.opencontainers.image.version=$IMAGE_VERSION
 LABEL org.opencontainers.image.authors="Stuart Ellis <stuart@stuartellis.name>"
 LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Tools Container" \ 
@@ -29,9 +29,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
   unzip awscliv2.zip && \ 
   ./aws/install && \
   rm awscliv2.zip
-
-# Include scripts
-COPY bin /root/bin
 
 # Add Vim configuration 
 COPY config/.vimrc /root/.vimrc

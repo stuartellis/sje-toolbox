@@ -2,10 +2,13 @@
   "name": "sje-toolbox",
   "version": "0.1.0",
   "description": "Linux shell and tools",
-  "main": "index.js",
+  "config": {
+    "imagename": "sje-toolbox"
+  },
   "scripts": {
-    "docker:build": "docker build . -t sje-toolbox",
-    "start": "docker run --rm -it sje-toolbox /bin/bash",
+    "docker:build": "docker build . -t $npm_package_config_imagename:$npm_package_version --build-arg IMAGE_VERSION=$npm_package_version",
+    "docker:image:name": "echo $npm_package_config_imagename:$npm_package_version",
+    "start": "docker run --rm -it $npm_package_config_imagename /bin/bash",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
