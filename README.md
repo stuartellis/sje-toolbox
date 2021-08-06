@@ -4,7 +4,14 @@
 
 This provides a Linux shell with a set of tools for DevOps, using Docker.
 
-It includes Git, Vim, Node.js and the AWS CLI.
+It includes:
+
+- AWS CLI
+- Curl
+- Git
+- Node.js
+- SSH
+- Vim
 
 ## Usage
 
@@ -17,6 +24,22 @@ To build the container image:
 To run the container:
 
     npm start
+
+> This only works on a UNIX-based system. To run the container on Windows, use the task below.
+
+To run the container without sharing directories:
+
+    npm run shell
+
+### Sharing
+
+The *share* directory is available inside the Linux shell as */mnt/share*. This enables you to share files between the Linux shell and your host system.
+
+The *.aws* directory in your user account is shared, so that the AWS CLI in the Linux shell automatically uses your settings.
+
+Similarly, the *.ssh* directory in your user account is shared with the container.
+
+> For safety, your .aws and .ssh directories are read-only in the Linux shell.
 
 ## Development
 

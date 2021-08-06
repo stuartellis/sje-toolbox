@@ -32,3 +32,6 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
 
 # Add Vim configuration 
 COPY config/.vimrc /root/.vimrc
+
+# Create mount point
+RUN mkdir /mnt/share

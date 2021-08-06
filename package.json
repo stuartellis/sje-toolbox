@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "description": "Linux shell and tools",
   "config": {
+    "awsdir": ".aws",
+    "shareddir": "./share",
+    "sshdir": ".ssh",
     "imagename": "sje-toolbox"
   },
   "scripts": {
     "docker:build": "docker build . -t $npm_package_config_imagename:$npm_package_version --build-arg IMAGE_VERSION=$npm_package_version",
-    "docker:image:name": "echo $npm_package_config_imagename:$npm_package_version",
-    "start": "docker run --rm -it $npm_package_config_imagename /bin/bash",
+    "docker:id": "$npm_package_config_imagename:$npm_package_version",
+    "shell": "docker run --rm -it $npm_package_config_imagename /bin/bash",
+    "start": "docker run --rm -it -w /root --mount type=bind,source=$PWD/$npm_package_config_shareddir,destination=/mnt/share --mount type=bind,source=$HOME/$npm_package_config_awsdir,destination=/root/.aws,readonly --mount type=bind,source=$HOME/$npm_package_config_sshdir,destination=/root/.ssh,readonly $npm_package_config_imagename /bin/bash",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
