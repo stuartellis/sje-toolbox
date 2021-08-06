@@ -25,7 +25,9 @@ To run the container:
 
     npm start
 
-> This only works on a UNIX-based system. To run the container on Windows, use the task below.
+The container will share several directories with the host. See the next section for details.
+
+> This task only works on a UNIX-based system. To run the container on Windows, use the task below.
 
 To run the container without sharing directories:
 
