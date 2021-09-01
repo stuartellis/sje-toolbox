@@ -1,4 +1,4 @@
-FROM debian:buster-20210721-slim
+FROM debian:bullseye-20210816-slim
 
 ## Image metadata ##
 
@@ -8,18 +8,23 @@ LABEL org.opencontainers.image.licenses="MIT"
 LABEL org.opencontainers.image.title="Tools Container" \ 
   org.opencontainers.image.description="Linux shell and tools"
 
+WORKDIR /home/user
+
 RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get autoremove && \
     apt-get clean
 
 # Packages that are required by installers
-RUN apt-get install -y curl unzip
+RUN apt-get install -y curl sudo unzip
 
 # Extra packages: dnsutils provides dig
 RUN apt-get install -y dnsutils git inetutils-ping rsync vim zip
 
-WORKDIR /root
+RUN groupadd --gid 1000 tbusers \
+  && useradd --uid 1000 --gid tbusers --shell /bin/bash --create-home tbuser
+  
+RUN echo '%tbusers ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
 # Install Node.js 14 LTS
 RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && apt-get install -y nodejs
@@ -30,8 +35,11 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2
   ./aws/install && \
   rm awscliv2.zip
 
-# Add Vim configuration 
-COPY config/.vimrc /root/.vimrc
-
 # Create mount point
 RUN mkdir /mnt/share
+
+USER tbuser
+WORKDIR /home/tbuser
+
+# Add Vim configuration 
+COPY config/.vimrc /home/tbuser/.vimrc
