@@ -9,9 +9,9 @@
     "ssh_dir": ".ssh"
   },
   "scripts": {
-    "docker:build": "docker build . -t $npm_package_config_imagename:$npm_package_version --build-arg IMAGE_VERSION=$npm_package_version",
-    "docker:id": "$npm_package_config_imagename:$npm_package_version",
-    "shell": "docker run --rm -it $npm_package_config_imagename /bin/bash",
+    "docker:build": "docker build . -t $npm_package_config_image_name:$npm_package_version --build-arg IMAGE_VERSION=$npm_package_version",
+    "docker:id": "$npm_package_config_image_name:$npm_package_version",
+    "shell": "docker run --rm -it $npm_package_config_image_name /bin/bash",
     "start": "docker run --rm -it -w /root --mount type=bind,source=$PWD/$npm_package_config_shared_dir,destination=/mnt/share --mount type=bind,source=$HOME/$npm_package_config_aws_dir,destination=/root/.aws,readonly --mount type=bind,source=$HOME/$npm_package_config_ssh_dir,destination=/root/.ssh,readonly $npm_package_config_image_name /bin/bash",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
